@@ -1,0 +1,36 @@
+#Internet Protocols
+Internet Protocol (IP) address adalah alamat numerik yang ditetapkan untuk sebuah komputer yang berpartisipasi 
+dalam jaringan komputer yang memanfaatkan Internet Protocol untuk komunikasi antara node-nya. Walaupun alamat IP 
+disimpan sebagai angka biner, mereka biasanya ditampilkan agar memudahkan manusia menggunakan notasi, 
+seperti 208.77.188.166 (untuk IPv4), dan 2001: db8: 0:1234:0:567:1:1 (untuk IPv6). 
+Peran alamat IP adalah sebagai berikut: "Sebuah nama menunjukkan apa yang kita mencari. 
+Sebuah alamat menunjukkan di mana ia berada. Sebuah route menunjukkan bagaimana menuju ke sana."
+
+#konfigurasi
+package yang dibutuhkan:
+apt install net-tools
+apt install traceroute
+apt install iproute2
+apt install tcpdump
+
+file untuk konfigurasi ip address debian: /etc/network/interfaces
+isi:
+auto enp0s3 (nama interface)
+iface enp0s3 inet static (atau dhcp)
+	address 192.168.1.2
+	netmask 255.255.255.0
+	gateway 192.168.1.1
+	dns-nameserver 8.8.8.8
+
+setelah itu restart menggunakan: systemctl restart networking atau /etc/init.d/networking restart
+====================================================================================================
+
+#routing
+routing adalah konsep yang memberikan salah satu cara untuk mengkonfigurasi pemilihan jalur dari router yang akan di lewati di jaringan komputer.
+Routing statik adalah tipe routing yang biasanya digunakan saat tidak ada komunikasi antar router tentang topologi jaringan.
+Routing statik dilakukan dengan cara menambahkan secara manual routing ke tabel routing. Lawan dari routing statik adalah dynamic routing / routing dinamis
+kadang kala di kenal sebagai adaptive routing.
+
+#konfigurasi
+ip route add 193.168.2.0/24 via 192.168.172.3 dev wg0 [192.168.2.0/24 adalah ip client yang akan dirouting menuju 192.168.173.3 di interface wireguard (wg0)]
+ketika ingin membuat script untuk routing. agar output tidak keluar ke shell. maka diperlukan (&> /dev/null) 
